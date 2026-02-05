@@ -3,126 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나만의 힐링 여행지 테스트 | 여행 정보 가이드</title>
+    <title>글로벌 여행 성향 테스트 | 나에게 딱 맞는 국가는?</title>
     <style>
-        /* 스타일: 전문가 느낌이 나도록 디자인을 다듬었습니다 */
-        body { font-family: 'Pretendard', -apple-system, sans-serif; text-align: center; background: #f0f2f5; padding: 20px; color: #333; line-height: 1.6; }
-        #test-container { max-width: 600px; margin: 40px auto; background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; text-align: center; background: #e9ecef; padding: 20px; color: #333; line-height: 1.6; }
+        #test-container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        /* 메인 이미지 스타일 */
-        .main-img { width: 100%; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* 이미지 스타일 */
+        .main-img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; }
         
-        /* 버튼 스타일 */
-        .btn { display: block; width: 100%; padding: 18px; margin: 12px 0; border: none; border-radius: 12px; background: #1a73e8; color: white; cursor: pointer; font-size: 17px; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #1557b0; transform: translateY(-3px); }
-        .btn-light { background: #f1f3f4; color: #333; }
-        .btn-light:hover { background: #e8eaed; }
+        /* 버튼 스타일 (보기 4개용) */
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; background: white; color: #333; cursor: pointer; font-size: 16px; transition: 0.2s; text-align: left; padding-left: 20px; }
+        .btn:hover { background: #f1f3f4; border-color: #1a73e8; color: #1a73e8; font-weight: bold; }
+        .btn-start { background: #1a73e8; color: white; text-align: center; border: none; font-weight: bold; font-size: 18px; }
+        .btn-start:hover { background: #1557b0; color: white; }
 
         /* 결과 화면 스타일 */
-        #result { display: none; text-align: left; } /* 글을 읽기 편하게 왼쪽 정렬 */
-        .result-title { font-size: 26px; color: #1a73e8; margin: 20px 0 10px; font-weight: 800; text-align: center; }
-        .result-desc { font-size: 18px; margin-bottom: 30px; text-align: center; color: #555; }
+        #result { display: none; }
+        .result-title { font-size: 28px; color: #1a73e8; margin: 20px 0 10px; font-weight: 800; }
+        .result-desc { font-size: 17px; color: #555; margin-bottom: 30px; word-break: keep-all; }
         
-        /* 정보성 글 상자 (애드센스용 콘텐츠) */
-        .info-box { background: #f8f9fa; padding: 25px; border-radius: 15px; border: 1px solid #eee; margin-top: 30px; }
-        .info-box h3 { border-bottom: 2px solid #1a73e8; padding-bottom: 10px; display: inline-block; margin-top: 0; }
-        .info-box li { margin-bottom: 10px; }
+        /* 정보 박스 스타일 */
+        .info-card { background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: left; border-left: 5px solid #1a73e8; }
+        .info-card h3 { margin-top: 0; font-size: 18px; color: #333; display: flex; align-items: center; }
+        .info-card ul { padding-left: 20px; margin-bottom: 0; }
+        .info-card li { margin-bottom: 5px; color: #555; font-size: 15px; }
 
-        .ad-placeholder { margin: 30px 0; padding: 30px; background: #fff9db; border: 2px dashed #fab005; border-radius: 10px; text-align: center; color: #8a6d3b; }
+        .ad-box { margin: 30px 0; padding: 40px; background: #fff4e6; border: 2px dashed #ffa94d; border-radius: 10px; color: #d9480f; font-weight: bold; }
+        
+        /* 로딩 바 */
+        .progress-bar { width: 100%; background-color: #eee; border-radius: 10px; margin-bottom: 20px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background-color: #1a73e8; width: 0%; transition: width 0.3s; }
     </style>
 </head>
 <body>
 
 <div id="test-container">
     <div id="intro">
-        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800" class="main-img" alt="메인 여행 이미지">
-        <h1 style="margin-bottom: 10px;">나의 영혼을 채워줄<br>인생 여행지는?</h1>
-        <p style="color:#666; margin-bottom:30px;">성격으로 알아보는 힐링 여행지 & 꿀팁 가이드</p>
-        <button class="btn" onclick="startTest()">✈️ 테스트 시작하기</button>
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600" class="main-img" alt="메인 여행">
+        <h1>✈️ 글로벌 여행 성향 테스트</h1>
+        <p>10가지 질문으로 알아보는<br>나의 소울 트래블(Soul Travel) 국가 찾기</p>
+        <button class="btn btn-start" onclick="startTest()">테스트 시작하기</button>
     </div>
 
-    <div id="question-container" style="display:none; text-align: center;">
-        <div id="progress" style="margin-bottom:20px; color:#1a73e8; font-weight:bold;">1 / 3</div>
-        <h2 id="question-text" style="font-size:22px; margin-bottom:40px;">질문 내용</h2>
-        <button class="btn btn-light" onclick="nextQuestion(1)">선택지 1</button>
-        <button class="btn btn-light" onclick="nextQuestion(0)">선택지 2</button>
+    <div id="question-container" style="display:none;">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <h2 id="question-text" style="font-size: 22px; margin-bottom: 30px;">질문 내용</h2>
+        <div id="answer-buttons">
+            </div>
     </div>
 
     <div id="result">
-        <img id="result-img" src="" class="main-img" alt="결과 이미지">
-        
-        <div class="result-title" id="travel-destination">여행지 이름</div>
-        <p class="result-desc" id="description">설명</p>
+        <img id="result-img" src="" class="main-img" alt="결과 나라">
+        <div style="font-size:14px; color:#666; font-weight:bold;">당신에게 딱 맞는 여행지는?</div>
+        <div class="result-title" id="result-country">나라 이름</div>
+        <p class="result-desc" id="result-desc">설명</p>
 
-        <div class="info-box">
-            <h3>💡 이곳을 200% 즐기는 꿀팁</h3>
-            <ul id="travel-tips">
-                <li>팁 1</li>
-                <li>팁 2</li>
-                <li>팁 3</li>
-            </ul>
-        </div>
-        
-        <div class="partner-box" style="margin-top:20px; background:#e3f2fd; padding:15px; border-radius:10px; text-align:center;">
-            <b>🤝 최고의 여행 메이트:</b> <span id="partner">파트너</span>
+        <div class="info-card">
+            <h3>💡 여행 꿀팁 & 포인트</h3>
+            <ul id="result-tips"></ul>
         </div>
 
-        <div class="ad-placeholder">
-            <b>[구글 광고 영역]</b><br>
-            여행자보험, 항공권 특가 광고가 여기 뜨면 수익이 발생합니다.
+        <div class="info-card" style="border-left-color: #e91e63;">
+            <h3>🍽️ 꼭 먹어야 할 음식</h3>
+            <ul id="result-food"></ul>
         </div>
 
-        <button class="btn" style="background:#333;" onclick="location.reload()">🔄 다른 결과도 보기</button>
+        <div class="ad-box">
+            [구글 애드센스 광고 영역]<br>
+            <span style="font-size:12px; font-weight:normal;">항공권 특가, 호텔 예약 광고가 표시됩니다.</span>
+        </div>
+
+        <button class="btn btn-start" onclick="location.reload()">🔄 다시 테스트하기</button>
     </div>
 </div>
 
 <script>
-    // 질문 목록
+    // 8개국 설정 (ID: 점수 계산용)
+    // USA:뉴욕(도시/화려), SUI:스위스(자연/힐링), VNM:베트남(가성비/휴양), FRA:프랑스(예술/낭만)
+    // JPN:일본(미식/근거리), MNG:몽골(모험/이색), ESP:스페인(열정/파티), ISL:아이슬란드(대자연/고독)
+    const countries = {
+        USA: 0, SUI: 0, VNM: 0, FRA: 0, JPN: 0, MNG: 0, ESP: 0, ISL: 0
+    };
+
+    // 질문 10개 (각 보기가 특정 나라 점수를 올려줌)
     const questions = [
-        { q: "휴가를 떠난다면 당신의 숙소 취향은?", a: ["모든 게 갖춰진 도심 호캉스", "새소리가 들리는 숲속 오두막"] },
-        { q: "여행지에서 식당을 고를 때?", a: ["별점 4.5 이상 검증된 맛집", "지나가다 냄새가 좋은 로컬 식당"] },
-        { q: "예상치 못한 비가 내린다면?", a: ["실내 박물관으로 계획을 변경한다", "비 맞는 것도 낭만! 우비 입고 돌아다닌다"] }
+        {
+            q: "1. 여행을 떠나는 가장 큰 이유는 무엇인가요?",
+            a: [
+                { text: "화려한 도시의 야경과 쇼핑을 즐기려고", type: ["USA", "FRA"] },
+                { text: "아무 생각 없이 푹 쉬고 싶어서", type: ["VNM", "SUI"] },
+                { text: "새로운 문화와 맛있는 음식을 경험하려고", type: ["JPN", "ESP"] },
+                { text: "남들은 잘 안 가는 낯선 곳을 탐험하고 싶어서", type: ["MNG", "ISL"] }
+            ]
+        },
+        {
+            q: "2. 선호하는 숙소 스타일은?",
+            a: [
+                { text: "초고층 럭셔리 호텔", type: ["USA", "VNM"] },
+                { text: "감성 가득한 에어비앤비나 전통 가옥", type: ["FRA", "JPN"] },
+                { text: "자연 속에 있는 펜션이나 글램핑", type: ["SUI", "MNG"] },
+                { text: "현지인들을 만날 수 있는 게스트하우스", type: ["ESP", "ISL"] }
+            ]
+        },
+        {
+            q: "3. 여행지에서의 아침 식사, 당신의 선택은?",
+            a: [
+                { text: "호텔 조식 뷔페를 느긋하게 즐긴다", type: ["VNM", "USA"] },
+                { text: "일찍 일어나서 유명한 브런치 맛집에 줄을 선다", type: ["FRA", "JPN"] },
+                { text: "편의점이나 길거리 음식으로 대충 때우고 이동", type: ["ESP", "MNG"] },
+                { text: "직접 재료를 사서 간단히 해먹거나 굶는다", type: ["SUI", "ISL"] }
+            ]
+        },
+        {
+            q: "4. 여행 중 길을 잃어버렸다면?",
+            a: [
+                { text: "바로 택시나 우버를 부른다", type: ["USA", "VNM"] },
+                { text: "지나가는 사람에게 바디랭귀지로 물어본다", type: ["ESP", "JPN"] },
+                { text: "구글맵을 켜고 최적 경로를 다시 검색한다", type: ["SUI", "FRA"] },
+                { text: "이것도 여행의 묘미! 발길 닿는 대로 가본다", type: ["MNG", "ISL"] }
+            ]
+        },
+        {
+            q: "5. 캐리어에 꼭 챙겨야 할 필수품은?",
+            a: [
+                { text: "인생샷을 위한 예쁜 옷과 선글라스", type: ["FRA", "USA"] },
+                { text: "수영복과 튜브", type: ["VNM", "ESP"] },
+                { text: "편안한 등산화나 트레킹화", type: ["SUI", "MNG"] },
+                { text: "고성능 카메라와 삼각대", type: ["ISL", "JPN"] }
+            ]
+        },
+        {
+            q: "6. 가장 해보고 싶은 액티비티는?",
+            a: [
+                { text: "뮤지컬 관람이나 미술관 투어", type: ["USA", "FRA"] },
+                { text: "마사지 받으며 하루 종일 뒹굴기", type: ["VNM", "JPN"] },
+                { text: "서핑, 스카이다이빙 등 짜릿한 레포츠", type: ["SUI", "ESP"] },
+                { text: "밤하늘 별 보기, 오로라 투어", type: ["MNG", "ISL"] }
+            ]
+        },
+        {
+            q: "7. 쇼핑을 한다면 무엇을 사고 싶은가요?",
+            a: [
+                { text: "명품 가방이나 브랜드 의류", type: ["FRA", "USA"] },
+                { text: "현지 마트 털기 (과자, 소스 등)", type: ["VNM", "JPN"] },
+                { text: "독특한 수공예품이나 기념품", type: ["MNG", "ESP"] },
+                { text: "쇼핑엔 관심 없다. 눈에 담는 게 최고", type: ["SUI", "ISL"] }
+            ]
+        },
+        {
+            q: "8. 함께 가고 싶은 여행 메이트는?",
+            a: [
+                { text: "사진 잘 찍어주는 친구", type: ["FRA", "USA"] },
+                { text: "맛집 리스트 꽉 채워온 친구", type: ["JPN", "ESP"] },
+                { text: "운전 잘하고 듬직한 친구", type: ["ISL", "USA"] },
+                { text: "불평 없이 아무거나 잘 먹는 친구", type: ["MNG", "VNM"] }
+            ]
+        },
+        {
+            q: "9. 여행지 물가에 대한 생각은?",
+            a: [
+                { text: "비싸도 상관없다. 경험이 중요하니까", type: ["SUI", "USA", "ISL"] },
+                { text: "가성비가 중요하다. 저렴하고 좋은 곳!", type: ["VNM", "ESP", "MNG"] },
+                { text: "적당히 쓴다. 먹는 것엔 아끼지 않음", type: ["JPN", "FRA"] },
+                { text: "쇼핑은 줄이고 숙소에 투자한다", type: ["VNM", "FRA"] }
+            ]
+        },
+        {
+            q: "10. 여행이 끝난 후 남는 것은?",
+            a: [
+                { text: "양손 가득한 쇼핑백과 전리품들", type: ["USA", "JPN"] },
+                { text: "SNS에 올릴 수백 장의 인생 사진", type: ["FRA", "VNM"] },
+                { text: "웅장한 대자연을 봤다는 감동", type: ["SUI", "ISL"] },
+                { text: "새로운 사람들과의 잊지 못할 추억", type: ["ESP", "MNG"] }
+            ]
+        }
     ];
 
-    // ✨ 결과 데이터 (이미지 + 꿀팁 정보 추가됨)
-    const results = {
-        city: {
-            name: "화려한 야경의 도시, 일본 도쿄 🇯🇵",
-            desc: "계획적이고 깔끔한 것을 좋아하는 당신! 체계적인 교통과 끝없는 미식의 세계가 있는 도쿄가 딱입니다.",
-            img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800", // 도쿄 타워 사진
-            partner: "길 찾기 천재 '네비게이션' 친구",
-            tips: [
-                "<b>교통 패스 필수:</b> 지하철이 복잡하니 '도쿄 서브웨이 티켓'을 미리 한국에서 사가세요.",
-                "<b>편의점 털기:</b> 일본 편의점의 달걀 샌드위치와 푸딩은 식당보다 맛있을 수 있습니다.",
-                "<b>스카이트리 예약:</b> 야경을 보려면 스카이트리 전망대를 최소 2주 전에 예약하세요."
-            ]
+    // 결과 데이터
+    const resultData = {
+        USA: {
+            name: "잠들지 않는 도시, 뉴욕 (미국) 🇺🇸",
+            desc: "화려한 도시의 에너지를 사랑하는 당신! 타임스퀘어의 네온사인, 브로드웨이 뮤지컬, 그리고 세계 최고의 베이글이 당신을 기다립니다.",
+            img: "https://images.unsplash.com/photo-1496442226666-8d4a0e29e128?w=800",
+            tips: ["지하철보다는 우버나 걷는 것을 추천해요.", "브로드웨이 티켓은 당일 로터리로 저렴하게 구할 수 있어요.", "센트럴파크 피크닉은 필수 코스!"],
+            food: ["뉴욕 3대 베이글", "길거리 1달러 피자", "스테이크 하우스"]
         },
-        nature: {
-            name: "동화 속 풍경, 스위스 인터라켄 🏔️",
-            desc: "복잡한 건 질색! 대자연 속에서 멍때리는 시간이 필요한 당신에게 알프스의 평화로움을 처방합니다.",
-            img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800", // 스위스 사진
-            partner: "사진을 인생샷으로 찍어주는 '금손' 친구",
-            tips: [
-                "<b>날씨 확인:</b> 융프라우는 날씨가 생명! 아침 일찍 웹캠을 확인하고 올라가세요.",
-                "<b>컵라면 챙기기:</b> 만년설을 보며 먹는 컵라면은 미슐랭 식당보다 맛있습니다.",
-                "<b>융프라우 VIP 패스:</b> 기차를 많이 탈 거라면 구간권보다 패스가 훨씬 저렴합니다."
-            ]
+        FRA: {
+            name: "낭만과 예술의 도시, 파리 (프랑스) 🇫🇷",
+            desc: "감수성이 풍부하고 분위기를 중요시하는 당신. 에펠탑 아래에서 와인을 마시거나 루브르 박물관을 거니는 상상만으로도 행복해지네요.",
+            img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800",
+            tips: ["박물관 뮤지엄 패스를 미리 구매하세요.", "소매치기를 조심하세요 (특히 지하철).", "몽마르뜨 언덕의 일몰은 꼭 봐야 해요."],
+            food: ["갓 구운 크루아상 & 에스프레소", "에스카르고(달팽이 요리)", "마카롱"]
         },
-        beach: {
-            name: "자유로운 영혼의 섬, 발리 🇮🇩",
-            desc: "계획? 그게 뭐죠? 발길 닿는 대로 즐기는 당신! 서핑과 요가, 그리고 저렴한 물가가 있는 발리로 떠나세요.",
-            img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800", // 발리 사진
-            partner: "무조건 '좋아!'라고 외치는 '예스맨' 친구",
-            tips: [
-                "<b>흥정의 기술:</b> 시장에서는 부르는 가격의 절반부터 깎아서 흥정해보세요!",
-                "<b>고젝(Gojek) 앱:</b> 발리의 카카오택시입니다. 바가지요금 없이 이동하려면 필수예요.",
-                "<b>물갈이 조심:</b> 식당에서는 꼭 생수를 사서 드시는 게 안전합니다."
-            ]
+        SUI: {
+            name: "알프스의 대자연, 인터라켄 (스위스) 🇨🇭",
+            desc: "복잡한 도시보다 평화로운 자연을 선호하는 당신. 동화 속 같은 풍경을 보며 진정한 힐링을 할 수 있는 스위스가 최고의 선택입니다.",
+            img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800",
+            tips: ["SBB 앱을 설치하면 기차 시간 확인이 편해요.", "물가가 비싸니 쿱(Coop) 마트를 애용하세요.", "융프라우 정상에서 컵라면 먹기!"],
+            food: ["퐁듀 (치즈 요리)", "뢰스티 (감자전)", "스위스 초콜릿"]
+        },
+        VNM: {
+            name: "힐링과 미식의 천국, 다낭 (베트남) 🇻🇳",
+            desc: "가성비와 휴식을 모두 잡고 싶은 실속파! 저렴한 물가, 맛있는 음식, 그리고 럭셔리 리조트까지 모든 게 완벽한 곳입니다.",
+            img: "https://images.unsplash.com/photo-1552353617-3bfd97616247?w=800",
+            tips: ["그랩(Grab) 어플은 필수입니다.", "1일 1마사지는 선택이 아니라 의무!", "롯데마트에서 기념품을 사면 저렴해요."],
+            food: ["쌀국수 & 분짜", "반미 샌드위치", "코코넛 커피"]
+        },
+        JPN: {
+            name: "전통과 현대의 조화, 교토 (일본) 🇯🇵",
+            desc: "가깝지만 확실한 기분 전환을 원하는 당신. 고즈넉한 사찰 산책과 정갈한 일본 가정식, 그리고 온천으로 피로를 풀어보세요.",
+            img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800",
+            tips: ["편한 신발을 신으세요 (많이 걷습니다).", "유명 식당은 예약이 필수인 경우가 많아요.", "기모노 체험으로 인생샷 남기기!"],
+            food: ["가이세키 요리", "말차 디저트", "규카츠"]
+        },
+        MNG: {
+            name: "쏟아지는 별들의 바다, 몽골 🇲🇳",
+            desc: "남들과 다른 특별한 경험을 원하시나요? 끝없이 펼쳐진 초원과 사막, 그리고 밤하늘을 수놓는 은하수는 평생 잊지 못할 기억이 될 거예요.",
+            img: "https://images.unsplash.com/photo-1542385434-c6c740c06864?w=800",
+            tips: ["보조배터리와 물티슈는 필수 생존템.", "일교차가 매우 크니 경량 패딩을 챙기세요.", "데이터가 잘 안 터지니 오프라인 맵 다운로드!"],
+            food: ["허르헉 (양고기 찜)", "수테차 (몽골식 밀크티)", "보즈 (몽골 만두)"]
+        },
+        ESP: {
+            name: "열정의 나라, 바르셀로나 (스페인) 🇪🇸",
+            desc: "에너지가 넘치고 사람들과 어울리는 것을 좋아하는 당신! 가우디의 건축물과 맛있는 타파스, 그리고 밤늦게까지 이어지는 축제 분위기를 즐겨보세요.",
+            img: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800",
+            tips: ["점심 시간이 늦습니다 (보통 2시 이후).", "사그라다 파밀리아 성당은 미리 예약 필수.", "시에스타(낮잠 시간)를 고려해서 계획 짜기."],
+            food: ["타파스 & 샹그리아", "해산물 빠에야", "츄로스"]
+        },
+        ISL: {
+            name: "얼음과 불의 땅, 아이슬란드 🇮🇸",
+            desc: "고독과 모험을 즐기는 탐험가 타입. 오로라, 거대한 폭포, 빙하 등 압도적인 대자연 앞에서 인간의 작음을 느껴보고 싶다면 이곳입니다.",
+            img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=800",
+            tips: ["방수되는 옷과 등산화는 기본.", "렌트카 보험은 풀커버로 드세요.", "물가는 세계 최고 수준이니 마음의 준비를..."],
+            food: ["피쉬 앤 칩스", "랍스터 수프", "핫도그 (의외로 유명함)"]
         }
     };
 
     let currentIdx = 0;
-    let score = 0;
 
     function startTest() {
         document.getElementById('intro').style.display = 'none';
@@ -131,15 +248,34 @@
     }
 
     function showQuestion() {
-        document.getElementById('progress').innerText = `${currentIdx + 1} / ${questions.length}`;
-        document.getElementById('question-text').innerText = questions[currentIdx].q;
-        const buttons = document.querySelectorAll('#question-container .btn');
-        buttons[0].innerText = questions[currentIdx].a[0];
-        buttons[1].innerText = questions[currentIdx].a[1];
+        // 진행바 업데이트
+        let percent = (currentIdx / questions.length) * 100;
+        document.getElementById('progress-fill').style.width = percent + "%";
+
+        let q = questions[currentIdx];
+        document.getElementById('question-text').innerText = q.q;
+        
+        let btnContainer = document.getElementById('answer-buttons');
+        btnContainer.innerHTML = ""; // 기존 버튼 초기화
+
+        // 4개 버튼 생성
+        q.a.forEach(ans => {
+            let btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.innerText = ans.text;
+            btn.onclick = function() { nextQuestion(ans.type); };
+            btnContainer.appendChild(btn);
+        });
     }
 
-    function nextQuestion(val) {
-        score += val;
+    function nextQuestion(types) {
+        // 선택한 보기에 연결된 나라 점수 증가
+        types.forEach(country => {
+            if (countries[country] !== undefined) {
+                countries[country]++;
+            }
+        });
+
         currentIdx++;
         if (currentIdx < questions.length) {
             showQuestion();
@@ -152,29 +288,36 @@
         document.getElementById('question-container').style.display = 'none';
         document.getElementById('result').style.display = 'block';
 
-        let data;
-        // 점수에 따른 결과 매칭 로직
-        if (score >= 3) {
-            data = results.city; // 도시형 (도쿄)
-        } else if (score == 2) {
-            data = results.nature; // 자연형 (스위스)
-        } else {
-            data = results.beach; // 휴양형 (발리)
+        // 가장 점수가 높은 나라 찾기
+        let maxScore = -1;
+        let bestCountry = "USA"; // 기본값
+
+        for (let key in countries) {
+            if (countries[key] > maxScore) {
+                maxScore = countries[key];
+                bestCountry = key;
+            }
         }
 
-        // 데이터 화면에 뿌리기
-        document.getElementById('travel-destination').innerText = data.name;
-        document.getElementById('description').innerText = data.desc;
-        document.getElementById('partner').innerText = data.partner;
+        let data = resultData[bestCountry];
+
+        // 화면에 뿌리기
+        document.getElementById('result-country').innerText = data.name;
+        document.getElementById('result-desc').innerText = data.desc;
         document.getElementById('result-img').src = data.img;
 
-        // 꿀팁 목록 만들기 (여기가 핵심!)
-        const tipsList = document.getElementById('travel-tips');
-        tipsList.innerHTML = ""; // 기존 목록 초기화
-        data.tips.forEach(tip => {
-            const li = document.createElement('li');
-            li.innerHTML = tip;
-            tipsList.appendChild(li);
+        // 꿀팁 리스트 생성
+        makeList('result-tips', data.tips);
+        makeList('result-food', data.food);
+    }
+
+    function makeList(elementId, array) {
+        let list = document.getElementById(elementId);
+        list.innerHTML = "";
+        array.forEach(item => {
+            let li = document.createElement('li');
+            li.innerText = item;
+            list.appendChild(li);
         });
     }
 </script>
