@@ -1,86 +1,148 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <meta name="google-site-verification" content="google6614b660c68bdd9c" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>인생 여행지 테스트 & 현지 맛 쇼핑</title>
+    <title>인생 여행지 & 소울 푸드 테스트</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; text-align: center; background: #f8f9fa; padding: 20px; color: #333; line-height: 1.6; }
-        #test-container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .main-img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; background: white; color: #333; cursor: pointer; font-size: 16px; transition: 0.2s; text-align: left; padding-left: 20px; }
-        .btn:hover { background: #f1f3f4; border-color: #1a73e8; color: #1a73e8; font-weight: bold; }
-        .btn-start { background: #1a73e8; color: white; text-align: center; border: none; font-weight: bold; font-size: 18px; }
-        .btn-buy { display: inline-block; padding: 5px 12px; background: #ff9000; color: white; border-radius: 5px; font-size: 13px; text-decoration: none; font-weight: bold; float: right; }
-        #result { display: none; }
-        .info-card { background: #fdfdfd; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: left; border-left: 5px solid #1a73e8; }
-        .legal-notice { font-size: 11px; color: #999; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }
-        .progress-bar { width: 100%; background: #eee; border-radius: 10px; margin-bottom: 20px; height: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #1a73e8; width: 0%; transition: 0.3s; }
-        nav { background:#fff; padding:15px; border-bottom:1px solid #ddd; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; font-weight:bold; margin-bottom: 20px; }
-        nav a { text-decoration:none; color:#333; font-size: 14px; }
+        :root { --p: #ff4d4d; --s: #333; }
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; text-align: center; background: #fdfdfd; margin: 0; padding: 0; }
+        nav { background: #fff; padding: 15px; border-bottom: 1px solid #ddd; font-weight: bold; }
+        nav a { text-decoration: none; color: #333; margin: 0 10px; }
+        .container { max-width: 500px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .btn { display: block; width: 100%; padding: 18px; margin: 10px 0; border: none; border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-start { background: var(--p); color: #fff; }
+        .btn-choice { background: #f1f3f5; color: #495057; }
+        .btn-choice:hover { background: #e9ecef; }
+        .btn-coupang { background: #0074e9; color: #fff; text-decoration: none; display: inline-block; margin-top: 20px; }
+        
+        #q-screen, #result-screen, #loading-screen { display: none; }
+        .food-img { width: 100%; border-radius: 15px; margin-top: 15px; }
+        .result-box { border: 2px solid #eee; padding: 20px; border-radius: 20px; margin-top: 20px; }
+        .progress-bar { width: 100%; height: 8px; background: #eee; border-radius: 10px; margin-bottom: 20px; }
+        .progress { height: 100%; background: var(--p); border-radius: 10px; width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-<nav style="background:#fff; padding:15px; border-bottom:1px solid #ddd; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; font-weight:bold; margin-bottom: 20px;">
-    <a href="/" style="text-decoration:none; color:#333;">홈</a>
-    <a href="/guide-usa.html" style="text-decoration:none; color:#333;">미국</a>
-    <a href="/guide-japan.html" style="text-decoration:none; color:#333;">일본</a>
-    <a href="/guide-france.html" style="text-decoration:none; color:#333;">프랑스</a>
-    <a href="/guide-switzerland.html" style="text-decoration:none; color:#333;">스위스</a>
-    <a href="/guide-vietnam.html" style="text-decoration:none; color:#333;">베트남</a>
-    <a href="/guide-spain.html" style="text-decoration:none; color:#333;">스페인</a>
-    <a href="/guide-mongolia.html" style="text-decoration:none; color:#333;">몽골</a>
-    <a href="/guide-iceland.html" style="text-decoration:none; color:#333;">아이슬란드</a>
-    <a href="/about.html" style="text-decoration:none; color:#333;">소개</a>
-</nav>
+    <nav>
+        <a href="/">홈</a>
+        <a href="/about.html">소개</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+    </nav>
 
-<div id="test-container">
-    <div id="intro">
-        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800" class="main-img">
-        <h1>✈️ 나의 소울 트래블 국가 찾기</h1>
-        <p>나에게 맞는 여행지를 찾고 현지 맛까지 집으로!</p>
-        <button class="btn btn-start" onclick="startTest()">테스트 시작하기</button>
-    </div>
-
-    <div id="question-container" style="display:none;">
-        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
-        <h2 id="question-text">질문</h2>
-        <div id="answer-buttons"></div>
-    </div>
-
-    <div id="result">
-        <img id="result-img" src="" class="main-img">
-        <h1 id="result-country" style="color:#1a73e8;">나라 이름</h1>
-        <div class="info-card" style="border-left-color: #ff9000;">
-            <h3>🛒 집에서 즐기는 현지 맛 (최저가)</h3>
-            <ul id="result-food" style="list-style:none; padding-left:0;"></ul>
+    <div class="container">
+        <div id="start-screen">
+            <h1>✈️ 나의 인생 여행지 찾기</h1>
+            <p>당신의 취향을 분석해 여행지와<br><b>현지의 맛을 담은 밀키트</b>까지 추천해 드립니다!</p>
+            <img src="https://images.unsplash.com/photo-1500835595353-b042ad31629e?auto=format&fit=crop&w=500&q=80" style="width:100%; border-radius:15px;">
+            <button class="btn btn-start" onclick="startTest()">테스트 시작하기</button>
         </div>
-        <p class="legal-notice">이 포스팅은 쿠팡 파트너스 활동의 일환으로 수수료를 제공받습니다.</p>
-        <button class="btn btn-start" onclick="location.reload()">🔄 다시하기</button>
+
+        <div id="q-screen">
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+            <h2 id="q-text">질문</h2>
+            <div id="ans-btns"></div>
+        </div>
+
+        <div id="loading-screen">
+            <h2>분석 중...</h2>
+            <p>당신의 소울 푸드를 요리하고 있습니다 👨‍🍳</p>
+        </div>
+
+        <div id="result-screen">
+            <h3 id="res-title">당신에게 어울리는 곳은?</h3>
+            <h1 id="res-country" style="color:#ff4d4d;">일본</h1>
+            
+            <div class="result-box">
+                <p>여행까지 기다리기 힘들다면?<br><b>집에서 즐기는 현지의 맛!</b></p>
+                <img id="food-img" class="food-img" src="" alt="음식 이미지">
+                <h2 id="food-name">음식 이름</h2>
+                <p>현지의 정취를 담은 최고의 상품을 추천합니다.</p>
+                <a id="coupang-link" href="#" target="_blank" class="btn btn-coupang">🛒 쿠팡에서 최저가 확인하기</a>
+            </div>
+
+            <button class="btn btn-start" style="margin-top:20px;" id="guide-btn">상세 여행 가이드 보기</button>
+            <button class="btn btn-choice" onclick="location.reload()">다시 하기</button>
+        </div>
     </div>
-</div>
 
-<script>
-    const countries = { USA: 0, FRA: 0, SUI: 0, VNM: 0, JPN: 0, ESP: 0, MNG: 0, ISL: 0 };
-    // (질문 10개 로직은 이전과 동일하므로 유지됩니다)
-    const questions = [
-        { q: "1. 여행 가방을 쌀 때 가장 먼저 챙기는 것은?", a: [{ t: "멋진 옷", s: ["USA", "FRA"] }, { t: "등산화", s: ["SUI", "MNG"] }, { t: "현지 맛집 지도", s: ["JPN", "VNM"] }, { t: "고성능 카메라", s: ["ISL", "ESP"] }] },
-        // ... 중략 (나머지 9개 질문은 이전 코드와 동일)
-    ];
+    <script>
+        const questions = [
+            { q: "휴가가 생긴다면 당신의 선택은?", a: "화려한 야경의 대도시", b: "끝없이 펼쳐진 자연", type: "city" },
+            { q: "여행지에서 가장 중요한 것은?", a: "미슐랭 가이드 맛집 탐방", b: "여유로운 힐링과 산책", type: "food" },
+            { q: "어떤 날씨를 선호하시나요?", a: "기분 좋은 따뜻한 햇살", b: "시원하거나 눈이 오는 풍경", type: "weather" },
+            { q: "여행 중 이동 수단은?", a: "대중교통과 활기찬 걷기", b: "렌터카로 자유로운 드라이브", type: "move" }
+        ];
 
-    const resultData = {
-        USA: { name: "미국 뉴욕 🇺🇸", img: "https://images.unsplash.com/photo-1496442226666-8d4a0e29e128?w=800", food: [{ n: "플레인 베이글", l: "https://link.coupang.com/a/dGGLHY" }, { n: "프라임 등심", l: "https://link.coupang.com/a/dGGMwv" }] },
-        FRA: { name: "프랑스 파리 🇫🇷", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800", food: [{ n: "크루아상 생지", l: "https://link.coupang.com/a/dGGNdw" }, { n: "마카롱 세트", l: "https://link.coupang.com/a/dGGNGn" }] },
-        SUI: { name: "스위스 알프스 🇨🇭", img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800", food: [{ n: "치즈 퐁듀", l: "https://link.coupang.com/a/dGGPjb" }, { n: "스위스 초콜릿", l: "https://link.coupang.com/a/dGGPMW" }] },
-        VNM: { name: "베트남 다낭 🇻🇳", img: "https://images.unsplash.com/photo-1552353617-3bfd97616247?w=800", food: [{ n: "쌀국수 밀키트", l: "https://link.coupang.com/a/dGGQfY" }, { n: "코코넛 커피", l: "https://link.coupang.com/a/dGGQ0h" }] },
-        JPN: { name: "일본 교토 🇯🇵", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800", food: [{ n: "이치란 라멘", l: "https://link.coupang.com/a/dGGRyD" }, { n: "냉동 규카츠", l: "https://link.coupang.com/a/dGGScQ" }] },
-        ESP: { name: "스페인 바르셀로나 🇪🇸", img: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800", food: [{ n: "해산물 빠에야", l: "https://link.coupang.com/a/dGGSOe" }, { n: "냉동 츄러스", l: "https://link.coupang.com/a/dGGTi7" }] },
-        MNG: { name: "몽골 초원 🇲🇳", img: "https://images.unsplash.com/photo-1542385434-c6c740c06864?w=800", food: [{ n: "양갈비 숄더랙", l: "https://link.coupang.com/a/dGGTPJ" }, { n: "수테차 밀크티", l: "https://link.coupang.com/a/dGGVEZ" }] },
-        ISL: { name: "아이슬란드 빙하 🇮🇸", img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=800", food: [{ n: "피쉬앤칩스", l: "https://link.coupang.com/a/dGGWz8" }, { n: "수입 핫도그 번", l: "https://link.coupang.com/a/dGGW5K" }] }
-    };
-    // ... (테스트 실행 스크립트 로직 유지)
-</script>
+        // 구글 시트 데이터 반영 (사용자님의 시트 내용과 100% 일치)
+        const results = {
+            usa: { country: "미국 (뉴욕)", food: "신라명과 플레인 베이글", link: "https://link.coupang.com/a/dGGLHY", img: "https://images.unsplash.com/photo-1585476108011-1550a6a8c3bd?auto=format&fit=crop&w=500&q=80" },
+            france: { country: "프랑스 (파리)", food: "냉동 크루아상 생지", link: "https://link.coupang.com/a/dGGNdw", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
+            switzerland: { country: "스위스 (알프스)", food: "치즈 퐁듀 밀키트", link: "https://link.coupang.com/a/dGGPjb", img: "https://images.unsplash.com/photo-1502446654160-2646c2f3020c?auto=format&fit=crop&w=500&q=80" },
+            vietnam: { country: "베트남 (다낭)", food: "베트남 쌀국수 밀키트", link: "https://link.coupang.com/a/dGGQfY", img: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=500&q=80" },
+            japan: { country: "일본 (교토)", food: "이치란 라멘 번들", link: "https://link.coupang.com/a/dGGRyD", img: "https://images.unsplash.com/photo-1557872245-741f4c666e5c?auto=format&fit=crop&w=500&q=80" },
+            spain: { country: "스페인 (바르셀로나)", food: "해산물 빠에야 밀키트", link: "https://link.coupang.com/a/dGGSOe", img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=500&q=80" },
+            mongolia: { country: "몽골 (초원)", food: "양갈비 (숄더랙)", link: "https://link.coupang.com/a/dGGTPJ", img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80" },
+            iceland: { country: "아이슬란드 (빙하)", food: "피쉬앤칩스 냉동", link: "https://link.coupang.com/a/dGGWz8", img: "https://images.unsplash.com/photo-1579450841234-49135815c474?auto=format&fit=crop&w=500&q=80" }
+        };
+
+        let step = 0;
+        let score = { city: 0, food: 0, weather: 0, move: 0 };
+
+        function startTest() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('q-screen').style.display = 'block';
+            showQ();
+        }
+
+        function showQ() {
+            const q = questions[step];
+            document.getElementById('q-text').innerText = q.q;
+            document.getElementById('progress').style.width = ((step / questions.length) * 100) + "%";
+            const btns = document.getElementById('ans-btns');
+            btns.innerHTML = `
+                <button class="btn btn-choice" onclick="next('${q.type}', 1)">${q.a}</button>
+                <button class="btn btn-choice" onclick="next('${q.type}', 0)">${q.b}</button>
+            `;
+        }
+
+        function next(type, val) {
+            score[type] = val;
+            step++;
+            if(step < questions.length) showQ();
+            else showResult();
+        }
+
+        function showResult() {
+            document.getElementById('q-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('result-screen').style.display = 'block';
+
+                // 점수 기반 결과 매칭 로직
+                let resKey = "japan";
+                if(score.city && score.food && score.weather) resKey = "usa";
+                else if(score.city && score.food && !score.weather) resKey = "france";
+                else if(!score.city && score.food && !score.weather) resKey = "switzerland";
+                else if(!score.city && !score.food && score.weather) resKey = "vietnam";
+                else if(score.city && !score.food && score.weather) resKey = "spain";
+                else if(!score.city && !score.food && !score.weather && score.move) resKey = "mongolia";
+                else if(!score.city && !score.food && !score.weather && !score.move) resKey = "iceland";
+
+                const res = results[resKey];
+                document.getElementById('res-country').innerText = res.country;
+                document.getElementById('food-name').innerText = res.food;
+                document.getElementById('food-img').src = res.img;
+                document.getElementById('coupang-link').href = res.link;
+                
+                // 가이드 페이지 이동 버튼
+                document.getElementById('guide-btn').onclick = () => { location.href = `guide-${resKey}.html`; };
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
